@@ -32,6 +32,14 @@ RCT_ENUM_CONVERTER(PayPalEnvironment, (@{ @"Sandbox" : @(kPayPalEnvironmentSandb
 
 @end
 
+@implementation RCTConvert (PayPalPaymentIntent)
+
+RCT_ENUM_CONVERTER(PayPalPaymentIntent, (@{ @"Sale" : @(PayPalPaymentIntentSale),
+                                          @"Authorize" : @(PayPalPaymentIntentAuthorize),
+                                          @"Order" : @(PayPalPaymentIntentOrder)}
+                                       ), PayPalPaymentIntentSale, integerValue)
+
+@end
 
 @interface MFLReactNativePayPal () <PayPalPaymentDelegate, RCTBridgeModule>
 
@@ -60,12 +68,14 @@ RCT_EXPORT_METHOD(initializePaypalEnvironment:(int)environment
 
 RCT_EXPORT_METHOD(preparePaymentOfAmount:(NSString *)amount
                   ofCurrency:(NSString *)currencyCode
-                  withDescription:(NSString *)description)
+                  withDescription:(NSString *)description
+                  andPaymentIntent:(PayPalPaymentIntent)paymentIntent)
 {
   self.payment = [[PayPalPayment alloc] init];
   [self.payment setAmount:[[NSDecimalNumber alloc] initWithString:amount]];
   [self.payment setCurrencyCode:currencyCode];
   [self.payment setShortDescription:description];
+  [self.payment setIntent:paymentIntent];
 }
 
 
@@ -130,6 +140,11 @@ RCT_EXPORT_METHOD(presentPaymentViewControllerForPreparedPurchase:(RCTResponseSe
                 @"Sandbox" : @(kPayPalEnvironmentSandbox),
                 @"Production" : @(kPayPalEnvironmentProduction),
                 @"NoNetwork" : @(kPayPalEnvironmentSandboxNoNetwork),
+                },
+            @"PaymentIntent" : @{
+                @"Sale" : @(PayPalPaymentIntentSale),
+                @"Authorize" : @(PayPalPaymentIntentAuthorize),
+                @"Order" : @(PayPalPaymentIntentOrder),
                 },
             };
 }
