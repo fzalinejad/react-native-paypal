@@ -170,6 +170,18 @@ There will be an updated npm release shortly, which will allow
 
 #### Install the PayPal-iOS-SDK
 
+##### If you use [CocoaPods](http://cocoapods.org), then:
+
+Add this to your podfile:
+
+```ruby
+pod 'PayPal-iOS-SDK'
+```
+
+For more information, please see [this](https://github.com/paypal/PayPal-iOS-SDK#add-the-sdk-to-your-project).
+
+##### If you don't use CocoaPods, then:
+
 You then have to install the PayPal-iOS-SDK into `node_modules/react-native-paypal/ios/lib/Paypal`
 
 Here's a one-liner to download and unpack version `2.13.0`:
