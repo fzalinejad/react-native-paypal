@@ -74,7 +74,9 @@ public class PayPal extends ReactContextBaseJavaModule {
     final String price = payPalParameters.getString("price");
     final String currency = payPalParameters.getString("currency");
     final String description = payPalParameters.getString("description");
-    final String paymentIntent = payPalParameters.getString("paymentIntent");
+    final String paymentIntent = payPalParameters.hasKey("paymentIntent")
+      ? payPalParameters.getString("paymentIntent")
+      : PayPalPayment.PAYMENT_INTENT_SALE;
 
     PayPalConfiguration config =
       new PayPalConfiguration().environment(environment).clientId(clientId);
@@ -82,8 +84,7 @@ public class PayPal extends ReactContextBaseJavaModule {
     startPayPalService(config);
 
     PayPalPayment thingToBuy =
-      new PayPalPayment(new BigDecimal(price), currency, description,
-              paymentIntent != null ? paymentIntent : PayPalPayment.PAYMENT_INTENT_SALE);
+      new PayPalPayment(new BigDecimal(price), currency, description, paymentIntent);
 
     Intent intent =
       new Intent(activityContext, PaymentActivity.class)
