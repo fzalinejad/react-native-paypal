@@ -77,9 +77,21 @@ public class PayPal extends ReactContextBaseJavaModule {
     final String paymentIntent = payPalParameters.hasKey("paymentIntent")
       ? payPalParameters.getString("paymentIntent")
       : PayPalPayment.PAYMENT_INTENT_SALE;
+    final String merchantName = payPalParameters.hasKey("merchantName")
+      ? payPalParameters.getString("merchantName")
+      : null;
+    final boolean acceptCreditCards = payPalParameters.hasKey("acceptCreditCards")
+      ? payPalParameters.getBoolean("acceptCreditCards")
+      : true;
+    final String defaultUserEmail = payPalParameters.hasKey("defaultUserEmail")
+      ? payPalParameters.getString("defaultUserEmail")
+      : null;
 
     PayPalConfiguration config =
-      new PayPalConfiguration().environment(environment).clientId(clientId);
+      new PayPalConfiguration().environment(environment).clientId(clientId)
+      .merchantName(merchantName)
+      .acceptCreditCards(acceptCreditCards)
+      .defaultUserEmail(defaultUserEmail);
 
     startPayPalService(config);
 
