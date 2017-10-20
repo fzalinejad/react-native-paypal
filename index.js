@@ -28,7 +28,9 @@ let functions = {
   paymentRequest(payPalParameters) {
     return new Promise(function(resolve, reject) {
       if (Platform.OS === 'android') {
-        PayPal.paymentRequest(payPalParameters, resolve, reject);
+        PayPal.paymentRequest(payPalParameters, (confirm, payment) => {
+          resolve(JSON.parse(confirm), JSON.parse(payment))
+        }, reject);
       } else {
         MFLReactNativePayPal.initializePaypalEnvironment(payPalParameters.environment, payPalParameters.clientId);
         MFLReactNativePayPal.preparePaymentOfAmount(
@@ -43,7 +45,7 @@ let functions = {
              reject(constants.INVALID_CONFIG, error)
            } else {
             if (payload.status === 1) {
-              resolve(payload);
+              resolve(payload.confirmation);
             } else {
               reject(constants.USER_CANCELLED, payload);
             }
