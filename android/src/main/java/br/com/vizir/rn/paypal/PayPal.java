@@ -53,6 +53,9 @@ public class PayPal extends ReactContextBaseJavaModule {
     constants.put("PRODUCTION", PayPalConfiguration.ENVIRONMENT_PRODUCTION);
     constants.put(ERROR_USER_CANCELLED, ERROR_USER_CANCELLED);
     constants.put(ERROR_INVALID_CONFIG, ERROR_INVALID_CONFIG);
+    constants.put("PAYMENT_INTENT_SALE", PayPalPayment.PAYMENT_INTENT_SALE);
+    constants.put("PAYMENT_INTENT_AUTHORIZE", PayPalPayment.PAYMENT_INTENT_AUTHORIZE);
+    constants.put("PAYMENT_INTENT_ORDER", PayPalPayment.PAYMENT_INTENT_ORDER);
 
     return constants;
   }
@@ -71,6 +74,7 @@ public class PayPal extends ReactContextBaseJavaModule {
     final String price = payPalParameters.getString("price");
     final String currency = payPalParameters.getString("currency");
     final String description = payPalParameters.getString("description");
+    final String paymentIntent = payPalParameters.getString("paymentIntent");
 
     PayPalConfiguration config =
       new PayPalConfiguration().environment(environment).clientId(clientId);
@@ -79,7 +83,7 @@ public class PayPal extends ReactContextBaseJavaModule {
 
     PayPalPayment thingToBuy =
       new PayPalPayment(new BigDecimal(price), currency, description,
-                        PayPalPayment.PAYMENT_INTENT_SALE);
+              paymentIntent != null ? paymentIntent : PayPalPayment.PAYMENT_INTENT_SALE);
 
     Intent intent =
       new Intent(activityContext, PaymentActivity.class)

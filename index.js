@@ -16,9 +16,12 @@ if (Platform.OS === 'android') {
 
     USER_CANCELLED: 'USER_CANCELLED',
     INVALID_CONFIG: 'INVALID_CONFIG',
-
-    PaymentIntent: MFLReactNativePayPal.PaymentIntent,
   }
+
+  Object.keys(MFLReactNativePayPal.PaymentIntent)
+    .forEach((key) => {
+      constants[`PAYMENT_INTENT_${key.toUpperCase()}`] = MFLReactNativePayPal.PaymentIntent[key];
+    })
 }
 
 let functions = {
