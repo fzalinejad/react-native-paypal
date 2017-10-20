@@ -27,7 +27,11 @@ let functions = {
       } else {
         MFLReactNativePayPal.initializePaypalEnvironment(payPalParameters.environment, payPalParameters.clientId);
         MFLReactNativePayPal.preparePaymentOfAmount(payPalParameters.price, payPalParameters.currency, payPalParameters.description);
-        MFLReactNativePayPal.prepareConfigurationForMerchant("Shape A Future", true, "spenden@aktion-europa-hilft.de");
+        MFLReactNativePayPal.prepareConfigurationForMerchant(
+          payPalParameters.merchantName,
+          payPalParameters.acceptCreditCards !== null ? payPalParameters.acceptCreditCards : true,
+          payPalParameters.defaultUserEmail,
+        );
         MFLReactNativePayPal.presentPaymentViewControllerForPreparedPurchase((error, payload) => {
           if (error) {
              reject(constants.INVALID_CONFIG, error)
