@@ -41,7 +41,9 @@ let functions = {
         );
         MFLReactNativePayPal.prepareConfigurationForMerchant(
           payPalParameters.merchantName,
-          payPalParameters.acceptCreditCards !== null ? payPalParameters.acceptCreditCards : true,
+          payPalParameters.acceptCreditCards !== null && payPalParameters.acceptCreditCards !== undefined
+            ? payPalParameters.acceptCreditCards
+            : true,
           payPalParameters.defaultUserEmail,
         );
         MFLReactNativePayPal.presentPaymentViewControllerForPreparedPurchase((error, payload) => {
