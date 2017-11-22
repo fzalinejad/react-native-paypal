@@ -37,7 +37,8 @@ let functions = {
           payPalParameters.price,
           payPalParameters.currency,
           payPalParameters.description,
-          payPalParameters.paymentIntent || MFLReactNativePayPal.PaymentIntent.Sale
+          payPalParameters.softDescriptor,
+          payPalParameters.paymentIntent || MFLReactNativePayPal.PaymentIntent.Sale,
         );
         MFLReactNativePayPal.prepareConfigurationForMerchant(
           payPalParameters.merchantName,
