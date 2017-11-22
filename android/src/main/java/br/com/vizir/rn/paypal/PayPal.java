@@ -80,6 +80,9 @@ public class PayPal extends ReactContextBaseJavaModule {
     final String defaultUserEmail = payPalParameters.hasKey("defaultUserEmail")
       ? payPalParameters.getString("defaultUserEmail")
       : null;
+    final String softDescriptor = payPalParameters.hasKey("softDescriptor")
+      ? payPalParameters.getString("softDescriptor")
+      : null;
 
     PayPalConfiguration config =
       new PayPalConfiguration().environment(environment).clientId(clientId)
@@ -90,8 +93,8 @@ public class PayPal extends ReactContextBaseJavaModule {
     startPayPalService(config);
 
     PayPalPayment thingToBuy =
-      new PayPalPayment(new BigDecimal(price), currency, description,
-                        PayPalPayment.PAYMENT_INTENT_SALE);
+      new PayPalPayment(new BigDecimal(price), currency, description, PayPalPayment.PAYMENT_INTENT_SALE)
+      .softDescriptor(softDescriptor);
 
     Intent intent =
       new Intent(activityContext, PaymentActivity.class)
