@@ -15,25 +15,44 @@ if (Platform.OS === 'android') {
     NO_NETWORK: 2,
 
     USER_CANCELLED: 'USER_CANCELLED',
-    INVALID_CONFIG: 'INVALID_CONFIG'
+    INVALID_CONFIG: 'INVALID_CONFIG',
   }
+
+  Object.keys(MFLReactNativePayPal.PaymentIntent)
+    .forEach((key) => {
+      constants[`PAYMENT_INTENT_${key.toUpperCase()}`] = MFLReactNativePayPal.PaymentIntent[key];
+    })
 }
 
 let functions = {
   paymentRequest(payPalParameters) {
     return new Promise(function(resolve, reject) {
       if (Platform.OS === 'android') {
-        PayPal.paymentRequest(payPalParameters, resolve, reject);
+        PayPal.paymentRequest(payPalParameters, (confirm, payment) => {
+          resolve(JSON.parse(confirm), JSON.parse(payment))
+        }, reject);
       } else {
         MFLReactNativePayPal.initializePaypalEnvironment(payPalParameters.environment, payPalParameters.clientId);
-        MFLReactNativePayPal.preparePaymentOfAmount(payPalParameters.price, payPalParameters.currency, payPalParameters.description);
-        MFLReactNativePayPal.prepareConfigurationForMerchant("Shape A Future", true, "spenden@aktion-europa-hilft.de");
+        MFLReactNativePayPal.preparePaymentOfAmount(
+          payPalParameters.price,
+          payPalParameters.currency,
+          payPalParameters.description,
+          payPalParameters.softDescriptor,
+          payPalParameters.paymentIntent || MFLReactNativePayPal.PaymentIntent.Sale,
+        );
+        MFLReactNativePayPal.prepareConfigurationForMerchant(
+          payPalParameters.merchantName,
+          payPalParameters.acceptCreditCards !== null && payPalParameters.acceptCreditCards !== undefined
+            ? payPalParameters.acceptCreditCards
+            : true,
+          payPalParameters.defaultUserEmail,
+        );
         MFLReactNativePayPal.presentPaymentViewControllerForPreparedPurchase((error, payload) => {
           if (error) {
              reject(constants.INVALID_CONFIG, error)
            } else {
             if (payload.status === 1) {
-              resolve(payload);
+              resolve(payload.confirmation);
             } else {
               reject(constants.USER_CANCELLED, payload);
             }
