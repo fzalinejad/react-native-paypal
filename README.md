@@ -1,5 +1,7 @@
 # react-native-paypal
 
+This is a updated fork of [react-native-paypal](https://github.com/MattFoley/react-native-paypal)
+
 A Cross platform React Native interface for the PayPal Payment UI. Supports both iOS and Android currently, but can be used seperately.
 
 ![Demo of a Payment using PayPal](/react-native-paypal.gif?raw=true "react-native-paypal")
@@ -134,7 +136,7 @@ You'll find an iOS example in `<root>/ios/Example/`. You will need to run npm in
 Currently you have to install via `npm` from GitHub (or change the version specifier in `package.json` to `MattFoley/react-native-paypal`):
 
 ```shell
-npm install --save MattFoley/react-native-paypal
+npm install --save waqas19921/react-native-paypal
 ```
 
 There will be an updated npm release shortly, which will allow
