@@ -1,10 +1,6 @@
 package br.com.vizir.rn.paypal;
 
-import android.content.Intent;
-import android.content.Context;
-
 import com.facebook.react.ReactPackage;
-import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
@@ -15,25 +11,11 @@ import java.util.List;
 
 public class PayPalPackage implements ReactPackage {
 
-  private PayPal paypalModule;
-  private int paymentIntentRequestCode;
-
-  public PayPalPackage(int paymentIntentRequestCode) {
-    this.paymentIntentRequestCode = paymentIntentRequestCode;
-  }
-
   @Override
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
     List<NativeModule> modules = new ArrayList<>();
-    paypalModule = new PayPal(reactContext, paymentIntentRequestCode);
-
-    modules.add(paypalModule);
+    modules.add(new PayPal(reactContext));
     return modules;
-  }
-
-  @Override
-  public List<Class<? extends JavaScriptModule>> createJSModules() {
-    return Collections.emptyList();
   }
 
   @Override
@@ -41,7 +23,4 @@ public class PayPalPackage implements ReactPackage {
     return Collections.emptyList();
   }
 
-  public void handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
-    paypalModule.handleActivityResult(requestCode, resultCode, data);
-  }
 }
