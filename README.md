@@ -16,6 +16,9 @@ let PayPal = require('react-native-paypal');
 PayPal.paymentRequest({
   clientId: 'AbyfNDFV53djg6w4yYgiug_JaDfBSUiYI7o6NM9HE1CQ_qk9XxbUX0nwcPXXQHaNAWYtDfphQtWB3q4R',
   environment: PayPalAndroid.SANDBOX,
+  merchantName: 'merchantName',
+  acceptCreditCardsL true,
+  defaultUserEmail: 'default@email.com',
   price: '42.00',
   currency: 'USD',
   description: 'PayPal Test'
